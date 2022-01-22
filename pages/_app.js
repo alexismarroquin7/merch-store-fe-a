@@ -6,7 +6,7 @@ import { GlobalStyles, theme } from "../styles/theme";
 function MyApp({ Component, pageProps }) {
   return (
   <ThemeProvider
-    theme={theme.light}
+    theme={theme}
   >
     <GlobalStyles/>
     <Component {...pageProps} />

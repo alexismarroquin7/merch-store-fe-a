@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Section } from "../../../components";
+import { Card, Section } from "../../../components";
 import { Inventory } from "../../../data";
 
 export default function Mens() {
@@ -7,16 +7,22 @@ export default function Mens() {
   
   return (
   <Section>
-    {mensInventory.map(mensInventoryItem => {
-      return (
-      <div
-        key={mensInventoryItem.inventory_id}
-      >
-        {mensInventoryItem.product.name}
-        {mensInventoryItem.price}
-      </div>
-      )
-    })}
+    <Card>
+      {mensInventory.map(mensInventoryItem => {
+        return (
+        <div
+          key={mensInventoryItem.inventory_id}
+        >
+          <img
+            width={"200px"}
+            src={mensInventoryItem.images[0].src}
+          />
+          {mensInventoryItem.product.name}
+          {mensInventoryItem.price}
+        </div>
+        )
+      })}
+    </Card>
   </Section>
   )
 }

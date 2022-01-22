@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { products } from './products';
 import { sizes } from './sizes';
 import { colors } from './colors';
+import { images } from './images';
 
 export const inventory = [
   {
@@ -9,7 +10,10 @@ export const inventory = [
     product: products[0],
     size: sizes[0],
     price: 35.00,
-    color: colors[0]
+    color: colors[0],
+    images: [
+      images[0]
+    ]
   },
   {
     inventory_id: uuidv4(),
@@ -17,6 +21,9 @@ export const inventory = [
     size: sizes[1],
     price: 35.00,
     color: colors[0],
+    images: [
+      images[0]
+    ]
   },
   {
     inventory_id: uuidv4(),
@@ -24,13 +31,19 @@ export const inventory = [
     size: sizes[2],
     price: 35.00,
     color: colors[0],
+    images: [
+      images[0]
+    ]
   },
   {
     inventory_id: uuidv4(),
     product: products[0],
     size: sizes[0],
     price: 35.00,
-    color: colors[1]
+    color: colors[1],
+    images: [
+      images[1]
+    ]
   },
   {
     inventory_id: uuidv4(),
@@ -38,6 +51,9 @@ export const inventory = [
     size: sizes[1],
     price: 35.00,
     color: colors[1],
+    images: [
+      images[1]
+    ]
   },
   {
     inventory_id: uuidv4(),
@@ -45,6 +61,9 @@ export const inventory = [
     size: sizes[2],
     price: 35.00,
     color: colors[1],
+    images: [
+      images[1]
+    ]
   },
 ]
 
