@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-const StyledCard = styled.div`
+const StyledContainer = styled.div`
   width: 90%;
   display: flex;
   flex-flow: column wrap;
@@ -10,10 +10,10 @@ const StyledCard = styled.div`
   border-radius: 10px;
 `
 
-export const Card = (props) => {
+export const Container = (props) => {
   return (
-  <StyledCard>
+  <StyledContainer>
     {props.children}
-  </StyledCard>
+  </StyledContainer>
   )
 }
