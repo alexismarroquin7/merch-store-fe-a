@@ -1,7 +1,8 @@
-import { MenuIcon, Section } from '../components';
+import { Section } from '../components';
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyles, theme } from "../styles/theme";
 import '../styles/globals.css'
+import { Menu } from '../widgets';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -10,9 +11,11 @@ function MyApp({ Component, pageProps }) {
   >
     <GlobalStyles/>
     <Section>
-      <MenuIcon
-        open={true}
+      
+      <Menu
+        open={false}
       />
+      
       <Component {...pageProps} />
     </Section>
   </ThemeProvider>

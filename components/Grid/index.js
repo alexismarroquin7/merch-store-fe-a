@@ -8,6 +8,7 @@ const StyledGrid = styled.div`
   gap: ${props => props.gap ? props.gap : '0px'};
   border: ${props => props.border ? props.border : 'none'};
   width: ${props => props.width ? props.width : 'auto'};
+  height: ${props => props.height ? props.height : 'auto'};
   padding: ${props => props.padding ? props.padding : '0'};
   background-color: ${props => props.backgroundColor ? props.backgroundColor : ''};
   color: ${props => props.color ? props.color : ''};
@@ -24,5 +25,6 @@ export const Grid = (props) => (
     padding={props.padding ? props.padding : ''}
     backgroundColor={props.backgroundColor ? props.backgroundColor : ''}
     color={props.color ? props.color : ''}
+    height={props.height ? props.height : ''}
   >{props.children}</StyledGrid>
 );
