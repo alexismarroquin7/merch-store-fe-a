@@ -9,7 +9,6 @@ export const inventory = [
     inventory_id: uuidv4(),
     product: products[0],
     size: sizes[0],
-    price: 35.00,
     color: colors[0],
     images: [
       images[0]
@@ -19,7 +18,6 @@ export const inventory = [
     inventory_id: uuidv4(),
     product: products[0],
     size: sizes[1],
-    price: 35.00,
     color: colors[0],
     images: [
       images[0]
@@ -29,7 +27,6 @@ export const inventory = [
     inventory_id: uuidv4(),
     product: products[0],
     size: sizes[2],
-    price: 35.00,
     color: colors[0],
     images: [
       images[0]
@@ -39,7 +36,6 @@ export const inventory = [
     inventory_id: uuidv4(),
     product: products[0],
     size: sizes[0],
-    price: 35.00,
     color: colors[1],
     images: [
       images[1]
@@ -49,7 +45,6 @@ export const inventory = [
     inventory_id: uuidv4(),
     product: products[0],
     size: sizes[1],
-    price: 35.00,
     color: colors[1],
     images: [
       images[1]
@@ -59,7 +54,6 @@ export const inventory = [
     inventory_id: uuidv4(),
     product: products[0],
     size: sizes[2],
-    price: 35.00,
     color: colors[1],
     images: [
       images[1]

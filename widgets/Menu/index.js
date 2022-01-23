@@ -13,7 +13,7 @@ const StyledMenu = styled.section`
   top: 4rem;
   left: ${({open}) => open ? '50vw' : '100vw'};
   
-  display: flex;
+  display: ${({open}) => open ? 'flex' : 'none'};
   flex-flow: column wrap;
   
   background-color: white;
