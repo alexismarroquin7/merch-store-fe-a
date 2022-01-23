@@ -2,6 +2,7 @@ import { useState } from "react"
 // import { Grid, Section } from "../../components"
 import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
+import { Grid } from "../../components";
 
 const StyledMenu = styled.section`
   width: 50%;
@@ -9,7 +10,7 @@ const StyledMenu = styled.section`
   
   position: absolute;
   z-index: 999;
-  
+
   top: 4rem;
   left: ${({open}) => open ? '50vw' : '100vw'};
   
@@ -123,7 +124,11 @@ export const Menu = ({ open }) => {
     open={open}
   >
     <div
-      className="menu__container"
+      style={{
+        display: "flex",
+        flexFlow: "column wrap",
+        gap: "1rem"
+      }}
     >
       {routes.map(gender => {
         return (
@@ -166,22 +171,31 @@ export const Menu = ({ open }) => {
                 </h5>
                 
             )}
-              
-              {parentCategory.options &&
-              parentCategory.options.length > 0 &&
-              listOpen.category_id === parentCategory.option_id &&
-              parentCategory.options.map(childCategory => {
-                return (
-                <div
-                  key={childCategory.href}
-                >
+
+            <div
+              style={{
+                display: "flex",
+                flexFlow: "column wrap",
+                gap: "1rem"
+              }}
+            >  
+              {
+                parentCategory.options &&
+                parentCategory.options.length > 0 &&
+                listOpen.category_id === parentCategory.option_id &&
+                parentCategory.options.map(childCategory => {
+                  return (
+                  
                   <a
+                    key={childCategory.href}
                     href={childCategory.href}
                   >{childCategory.name}</a>
-                </div>
-                )
-              })}
-            
+                  
+                  )
+                })
+              }
+            </div>
+
             </div>
             )
           })}
