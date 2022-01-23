@@ -2,7 +2,7 @@ import { Section } from '../components';
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyles, theme } from "../styles/theme";
 import '../styles/globals.css'
-import { Menu } from '../widgets';
+import { Nav } from '../widgets';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -10,12 +10,12 @@ function MyApp({ Component, pageProps }) {
     theme={theme}
   >
     <GlobalStyles/>
-    <Section>
-      
-      <Menu
-        open={false}
-      />
-      
+    
+    <Nav
+      menuOpen={false}
+    />
+
+    <Section>  
       <Component {...pageProps} />
     </Section>
   </ThemeProvider>

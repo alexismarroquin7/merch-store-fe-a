@@ -36,13 +36,16 @@ const StyledMenuIcon = styled.div`
 
 `
 
-export const MenuIcon = ({open}) => {
+export const MenuIcon = ({open, onClick}) => {
   const {toggled: menuOpen, flipToggle: toggleMenuOpen} = useToggle(open);
   return (
   <StyledMenuIcon
     open={menuOpen}
     onClick={() => {
       toggleMenuOpen();
+      if(onClick){
+        onClick();
+      }
     }}
   >
     <div>
