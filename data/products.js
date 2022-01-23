@@ -2,8 +2,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { categories } from "./categories"
 import { sub_categories } from "./sub_categories"
 import { genders } from './genders';
-// import { images } from './images';
-// import { colors } from './colors';
 
 export const products = [
   {
