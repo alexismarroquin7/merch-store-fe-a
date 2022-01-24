@@ -1,4 +1,4 @@
-import { InventoryAction } from "..";
+import { InventoryAction } from "../actions";
 
 const initialState = {
   status: {

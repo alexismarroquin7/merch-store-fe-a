@@ -5,7 +5,7 @@ import { Section } from '../components';
 import { Nav } from '../widgets';
 
 // store
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { applyMiddleware, createStore } from "redux";
 import { rootReducer } from "../store";
 import thunk from 'redux-thunk';
@@ -30,9 +30,8 @@ function MyApp({ Component, pageProps }) {
     >
       <GlobalStyles/>
       
-      <Nav
-        menuOpen={false}
-      />
+      <Nav/>
+      
       <Section>  
         <Component {...pageProps} />
       </Section>

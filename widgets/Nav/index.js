@@ -1,7 +1,18 @@
+// components
 import { MenuIcon, SearchIcon, Grid, BagIcon } from "../../components"
+
+// widgets
 import { Menu } from "../Menu";
-import styled from "styled-components";
+
+// hooks
 import { useToggle } from "../../hooks";
+
+// store
+import { useDispatch, useSelector } from "react-redux";
+import { MenuAction } from "../../store";
+// style
+import styled from "styled-components";
+import { useEffect } from "react";
 
 const StyledNav = styled.nav`
   position: sticky;
@@ -21,11 +32,18 @@ const StyledNav = styled.nav`
   }
 `;
 
-export const Nav = ({ menuOpen }) => {
-  const { toggled: open, flipToggle: toggleOpen } = useToggle(menuOpen);
+export const Nav = () => {
+  const menu = useSelector(s => s.menu);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(!menu.open) return;
+    dispatch(MenuAction.findAllGenders());
+  }, [menu.open, dispatch]);
+
   return (
   <StyledNav
-    open={open}
+    open={menu.open}
   >
 
     <div
@@ -41,9 +59,9 @@ export const Nav = ({ menuOpen }) => {
         <SearchIcon/>
 
         <MenuIcon
-          open={menuOpen}
+          open={menu.open}
           onClick={() => {
-            toggleOpen();
+            dispatch(MenuAction.toggleOpen());
           }}
         />
       </Grid>
@@ -51,7 +69,7 @@ export const Nav = ({ menuOpen }) => {
     </div>
 
     <Menu 
-      open={open}
+      open={menu.open}
     />
 
   </StyledNav>
