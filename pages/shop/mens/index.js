@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Container, Grid, Section } from "../../../components";
 import { Inventory } from "../../../data";
-// import Image from "next/image";
+import Image from "next/image";
 export default function Mens() {
   const [mensInventory, setMensInventory] = useState(() => {
     const inventory = Inventory.findAll();
@@ -48,7 +48,7 @@ export default function Mens() {
         justify="space-between"
         gap="1rem"
       >
-        {/* {mensInventory.map(mensInventoryItem => {
+        {mensInventory.map(mensInventoryItem => {
           
           return (
           <Grid
@@ -86,7 +86,7 @@ export default function Mens() {
           
           </Grid>
           )
-        })} */}
+        })}
       </Grid>
     </Container>
   </Section>
