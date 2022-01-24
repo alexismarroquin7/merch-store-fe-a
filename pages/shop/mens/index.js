@@ -40,7 +40,7 @@ export default function Mens() {
   });
   
   return (
-  <Section>
+  <Section> 
     <Container>
       <Grid
         direction="row wrap"
