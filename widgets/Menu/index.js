@@ -1,13 +1,19 @@
 import { useState } from "react"
-// import { Grid, Section } from "../../components"
-import { v4 as uuidv4 } from "uuid";
-import styled from "styled-components";
+
 import { Grid } from "../../components";
+
+import { useDispatch, useSelector } from "react-redux";
+
+import { capitalizeFirstLetter } from "../../utils";
+
+import styled from "styled-components";
+import { MenuAction } from "../../store";
 
 const StyledMenu = styled.section`
   width: 50%;
   height: 100vh;
   
+  overflow-y: scroll;
   position: absolute;
   z-index: 999;
 
@@ -25,184 +31,116 @@ const StyledMenu = styled.section`
   
 `
 
-const routes = [
-  {
-    gender_id: uuidv4(),
-    name: 'Mens',
-    options: [
-      {
-        option_id: uuidv4(),
-        name: 'All',
-        href: '/shop/mens',
-      },
-      {
-        option_id: uuidv4(),
-        name: 'Tops',
-        options: [
-          {
-            name: 'All',
-            href: '/shop/mens/tops'
-          },
-          {
-            name: 'Short Sleeve',
-            href: '/shop/mens/top/shirts/short-sleeve-shirts'
-          },
-        ]
-      },
-      {
-        option_id: uuidv4(),
-        name: 'Bottoms',
-        href: '/shop/mens/bottoms'
-      },
-      {
-        option_id: uuidv4(),
-        name: 'Accessories',
-        href: '/shop/mens/accessories'
-      },
-    ]
-  },
-  {
-    gender_id: uuidv4(),
-    name: 'Womens',
-    options: [
-      {
-        option_id: uuidv4(),
-        name: 'All',
-        href: '/womens',
-      },
-      {
-        option_id: uuidv4(),
-        name: 'Tops',
-        options: [
-          {
-            name: 'All',
-            href: '/mens/tops'
-          },
-          {
-            name: 'Short Sleeve',
-            href: '/mens/top/shirts/short-sleeve-shirts'
-          },
-        ]
-      },
-      {
-        option_id: uuidv4(),
-        name: 'Bottoms',
-        options: [
-          {
-            name: 'All',
-            href: '/mens/bottoms'
-          }
-        ],
-      },
-      {
-        option_id: uuidv4(),
-        name: 'Accessories',
-        href: '/mens/accessories'
-      },
-    ]
-  }
-]
 
 export const Menu = ({ open }) => {
   
-  const [listOpen, setListOpen] = useState({
-    gender_id: '',
-    category_id: '',
-    sub_category_id: ''
+  const [selected, setSelected] = useState({
+    gender_ids: new Set(),
+    category_ids: new Set()
   });
 
-  const toggleListOpen = (key, id) => {
-    if(listOpen[key] === id){
-      setListOpen({...listOpen, [key]: ''});
+  const toggleSelected = (key, id) => {
+    
+    if(selected[key].has(id)){
+      selected[key].delete(id)
+      setSelected({
+        ...selected,
+        [key]: selected[key]
+      })
+    
     } else {
-      setListOpen({...listOpen, [key]: id});
+      selected[key].add(id)
+      setSelected({
+        ...selected,
+        [key]: selected[key]
+      });
     }
   }
+
+  const menu = useSelector(s => s.menu);
+  const dispatch = useDispatch();
 
   return (
   <StyledMenu
     open={open}
   >
-    <div
-      style={{
-        display: "flex",
-        flexFlow: "column wrap",
-        gap: "1rem"
-      }}
+    <Grid
+      direction="column wrap"
     >
-      {routes.map(gender => {
-        return (
-        <div
-          key={gender.name}
-        >
-          <h3
-            onClick={() => {
-              toggleListOpen('gender_id', gender.gender_id);
-            }}  
-          >{listOpen.gender_id === gender.gender_id ? '^' : 'v'} {gender.name}</h3>
-          
-          {listOpen.gender_id === gender.gender_id && gender.options && gender.options.length > 0 && gender.options.map(parentCategory => {
-
-            return (
-            <div
-              key={parentCategory.option_id}
-            >
-              {parentCategory.href ? (
-                <h5
-                  style={{
-                    textDecoration: 'underline'
-                  }}
-                >
-                  <a
-                    href={parentCategory.href}
-                  >
-                    {parentCategory.name}
-                  </a>
-                </h5>
-                ) : (  
-                <h5
-                  onClick={() => toggleListOpen('category_id', parentCategory.option_id)}
-                >
-                  {
-                    parentCategory.options &&
-                    parentCategory.options.length > 0 &&
-                    listOpen.category_id === parentCategory.option_id ? '^' : 'v'
-                  } {parentCategory.name}
-                </h5>
-                
-            )}
-
-            <div
-              style={{
-                display: "flex",
-                flexFlow: "column wrap",
-                gap: "1rem"
+      {
+        menu.genders.length > 0 &&
+        menu.genders.map(gender => {
+          return (
+          <Grid
+            key={gender.gender_id}
+            direction="column wrap"
+          >
+            <h2
+              onClick={() => {
+                if(!selected.gender_ids.has(gender.gender_id)){
+                  dispatch(MenuAction.findCategoriesByGenderId(gender.gender_id))
+                }
+                toggleSelected('gender_ids', gender.gender_id);
               }}
-            >  
-              {
-                parentCategory.options &&
-                parentCategory.options.length > 0 &&
-                listOpen.category_id === parentCategory.option_id &&
-                parentCategory.options.map(childCategory => {
-                  return (
-                  
+            >{selected.gender_ids.has(gender.gender_id) ? '^' : 'v'} {capitalizeFirstLetter(gender.name)}</h2>
+            
+            {selected.gender_ids.has(gender.gender_id) && (
+              <Grid
+                direction="column wrap"
+              >
+                <h4>
                   <a
-                    key={childCategory.href}
-                    href={childCategory.href}
-                  >{childCategory.name}</a>
-                  
-                  )
-                })
-              }
-            </div>
+                    href={`/shop/${gender.name}`}
+                  >All</a>
+                </h4>
+                
+                {gender.categories && gender.categories.length > 0 && gender.categories.map(cat => {
+                  return (
+                  <Grid
+                    key={cat.category_id}
+                    direction="column wrap"
+                  >
+                    <h4
+                      onClick={() => {
+                        if(!selected.category_ids.has(cat.category_id)){
+                          dispatch(MenuAction.findSubCategoriesByCategoryId(cat.category_id))
+                        }
+                        toggleSelected('category_ids', cat.category_id);
+                      }}
+                    >{selected.category_ids.has(cat.category_id) ? '^' : 'v'} {capitalizeFirstLetter(cat.name)}</h4>
 
-            </div>
-            )
-          })}
-        </div>
-        )
-      })}
-    </div>
+                    {selected.category_ids.has(cat.category_id) && (
+                      <Grid
+                        direction="column wrap"
+                      >
+                        <p>
+                          <a
+                            href={`/shop/${gender.name}/categories/${cat.category_id}`}
+                          >All</a>
+                        </p>
+                        {cat.sub_categories && cat.sub_categories.length > 0 && cat.sub_categories.map(sub_cat => {
+                          return (
+                            <p
+                              key={sub_cat.sub_category_id}
+                            ><a
+                              href={`/shop/${gender.name}/categories/${cat.category_id}/sub_categories/${sub_cat.sub_category_id}`}
+                            >{sub_cat.text}</a></p>
+                          )
+                        })}
+                      </Grid>
+                    )}
+
+                  </Grid>
+                  )
+                })}
+              </Grid>
+            )}
+          
+          </Grid>
+          )
+        })
+      }
+    </Grid>
   </StyledMenu>
   )
 }
