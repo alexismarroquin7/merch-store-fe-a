@@ -1,7 +1,0 @@
-export * from "./categories"
-export * from "./colors"
-export * from "./genders"
-export * from "./inventory"
-export * from "./products"
-export * from "./sizes"
-export * from "./sub_categories"
