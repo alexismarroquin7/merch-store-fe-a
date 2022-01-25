@@ -1,27 +1,51 @@
 import { InventoryAction } from "../actions";
 
+const { ACTION } = InventoryAction;
+
 const initialState = {
   status: {
-    loading: false
-  }
+    loading: false,
+  },
+  list: []
 }
 
 export const inventoryReducer = (state = initialState, action) => {
   switch(action.type){
-    case InventoryAction.ACTION.FIND.ALL.START:
+    case ACTION.FIND.BY.SUB_CATEGORY.ID.START:
       return {
         ...state,
-        loading: true
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        }
       }
-    case InventoryAction.ACTION.FIND.ALL.SUCCESS:
+    case ACTION.FIND.BY.SUB_CATEGORY.ID.SUCCESS:
       return {
         ...state,
-        loading: false
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        }
       }
-    case InventoryAction.ACTION.FIND.ALL.FAIL:
+    case ACTION.FIND.BY.SUB_CATEGORY.ID.FAIL:
       return {
         ...state,
-        loading: false
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: action.payload.error.message
+          }
+        }
       }
     default:
       return state;
