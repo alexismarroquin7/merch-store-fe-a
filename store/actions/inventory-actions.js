@@ -14,6 +14,13 @@ const ACTION = {
           SUCCESS: "INVENTORY__FIND__BY__SUB_CATEGORY__ID--SUCCESS",
           FAIL: "INVENTORY__FIND__BY__SUB_CATEGORY__ID--FAIL"
         }
+      },
+      PRODUCT: {
+        ID: {
+          START: "INVENTORY__FIND__BY__PRODUCT__ID--START",
+          SUCCESS: "INVENTORY__FIND__BY__PRODUCT__ID--SUCCESS",
+          FAIL: "INVENTORY__FIND__BY__PRODUCT__ID--FAIL"
+        }
       }
     }
   }
@@ -39,10 +46,11 @@ const findBySubCategoryId = (sub_category_id) => async dispatch => {
     type: ACTION.FIND.BY.SUB_CATEGORY.ID.START
   });
   try {
-    const res = await axios().get('/inventory');
+    const res = await axios().get('/inventory?groupBy=products');
+    const inventory = res.data.filter(product => {
+      return product.sub_category.sub_category_id === sub_category_id;
+    });
     
-    const inventory = res.data;
-    console.log(res.data)
     dispatch({
       type: ACTION.FIND.BY.SUB_CATEGORY.ID.SUCCESS,
       payload: {
@@ -60,6 +68,33 @@ const findBySubCategoryId = (sub_category_id) => async dispatch => {
     });
   }
 };
+
+const findByProductId = (product_id) => async dispatch => {
+  dispatch({
+    type: ACTION.FIND.BY.PRODUCT.ID.START
+  })
+
+  try {
+    const res = await axios().get('/inventory?groupBy=products');
+    const [product] = res.data.filter(product => product.product_id === Number(product_id));
+    dispatch({
+      type: ACTION.FIND.BY.PRODUCT.ID.SUCCESS,
+      payload: {
+        product
+      }
+    })
+    
+  } catch (err) {
+    dispatch({
+      type: ACTION.FIND.BY.PRODUCT.ID.FAIL,
+      payload: {
+        error: {
+          message: err.response.data.message || err.message
+        }
+      }
+    })
+  }
+}
 
 export const InventoryAction = {
   ACTION,

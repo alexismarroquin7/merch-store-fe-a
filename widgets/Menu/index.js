@@ -90,7 +90,7 @@ export const Menu = ({ open }) => {
               >
                 <h4>
                   <a
-                    href={`/shop/${gender.name}`}
+                    href={`/shop/${gender.name}/products`}
                   >All</a>
                 </h4>
                 
@@ -115,7 +115,7 @@ export const Menu = ({ open }) => {
                       >
                         <p>
                           <a
-                            href={`/shop/${gender.name}/categories/${cat.category_id}`}
+                            href={`/shop/${gender.name}/categories/${cat.category_id}/products`}
                           >All</a>
                         </p>
                         {cat.sub_categories && cat.sub_categories.length > 0 && cat.sub_categories.map(sub_cat => {
@@ -123,8 +123,8 @@ export const Menu = ({ open }) => {
                             <p
                               key={sub_cat.sub_category_id}
                             ><a
-                              href={`/shop/${gender.name}/categories/${cat.category_id}/sub_categories/${sub_cat.sub_category_id}`}
-                            >{sub_cat.text}</a></p>
+                              href={`/shop/${gender.name}/categories/${cat.category_id}/sub_categories/${sub_cat.sub_category_id}/products`}
+                            >{sub_cat.name}</a></p>
                           )
                         })}
                       </Grid>

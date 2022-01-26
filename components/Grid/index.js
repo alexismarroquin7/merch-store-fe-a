@@ -26,5 +26,6 @@ export const Grid = (props) => (
     backgroundColor={props.backgroundColor ? props.backgroundColor : ''}
     color={props.color ? props.color : ''}
     height={props.height ? props.height : ''}
+    onClick={props.onClick ? props.onClick : () => {}}
   >{props.children}</StyledGrid>
 );

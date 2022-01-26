@@ -29,6 +29,7 @@ const StyledNav = styled.nav`
     justify-content: flex-end;
     padding: 1rem;
     background-color: white;
+    box-shadow: 0px 1px 5px black;
   }
 `;
 

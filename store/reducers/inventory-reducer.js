@@ -5,8 +5,12 @@ const { ACTION } = InventoryAction;
 const initialState = {
   status: {
     loading: false,
+    error: {
+      message: ''
+    }
   },
-  list: []
+  list: [],
+  product: {}
 }
 
 export const inventoryReducer = (state = initialState, action) => {
@@ -33,7 +37,8 @@ export const inventoryReducer = (state = initialState, action) => {
             ...state.status.error,
             message: ''
           }
-        }
+        },
+        list: action.payload.inventory
       }
     case ACTION.FIND.BY.SUB_CATEGORY.ID.FAIL:
       return {
