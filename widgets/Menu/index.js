@@ -28,6 +28,10 @@ const StyledMenu = styled.section`
   padding: 1rem 2rem;
 
   transition: all .2s;
+
+  a {
+    font-weight: bold;
+  }
   
 `
 
@@ -66,6 +70,7 @@ export const Menu = ({ open }) => {
   >
     <Grid
       direction="column wrap"
+      gap="1rem"
     >
       {
         menu.genders.length > 0 &&
@@ -74,57 +79,62 @@ export const Menu = ({ open }) => {
           <Grid
             key={gender.gender_id}
             direction="column wrap"
+            gap="1rem"
           >
-            <h2
+            <a
               onClick={() => {
                 if(!selected.gender_ids.has(gender.gender_id)){
                   dispatch(MenuAction.findCategoriesByGenderId(gender.gender_id))
                 }
                 toggleSelected('gender_ids', gender.gender_id);
               }}
-            >{selected.gender_ids.has(gender.gender_id) ? '^' : 'v'} {capitalizeFirstLetter(gender.name)}</h2>
+            >{selected.gender_ids.has(gender.gender_id) ? '^' : 'v'} {capitalizeFirstLetter(gender.name)}</a>
             
             {selected.gender_ids.has(gender.gender_id) && (
               <Grid
                 direction="column wrap"
+                gap="1rem"
+                padding="0 0 0 1rem"        
               >
-                <h4>
-                  <a
-                    href={`/shop/${gender.name}/products`}
-                  >All</a>
-                </h4>
+                
+                <a
+                  href={`/shop/${gender.name}/products`}
+                >All</a>
+                
                 
                 {gender.categories && gender.categories.length > 0 && gender.categories.map(cat => {
                   return (
                   <Grid
                     key={cat.category_id}
                     direction="column wrap"
+                    gap="1rem"
                   >
-                    <h4
+                    <a
                       onClick={() => {
                         if(!selected.category_ids.has(cat.category_id)){
                           dispatch(MenuAction.findSubCategoriesByCategoryId(cat.category_id))
                         }
                         toggleSelected('category_ids', cat.category_id);
                       }}
-                    >{selected.category_ids.has(cat.category_id) ? '^' : 'v'} {capitalizeFirstLetter(cat.name)}</h4>
+                    >{selected.category_ids.has(cat.category_id) ? '^' : 'v'} {capitalizeFirstLetter(cat.name)}</a>
 
                     {selected.category_ids.has(cat.category_id) && (
                       <Grid
                         direction="column wrap"
+                        gap="1rem"
+                        padding="0 0 0 1rem"
                       >
-                        <p>
-                          <a
-                            href={`/shop/${gender.name}/categories/${cat.category_id}/products`}
-                          >All</a>
-                        </p>
+                        
+                        <a
+                          href={`/shop/${gender.name}/categories/${cat.category_id}/products`}
+                        >All</a>
+                        
                         {cat.sub_categories && cat.sub_categories.length > 0 && cat.sub_categories.map(sub_cat => {
                           return (
-                            <p
+                            <a
                               key={sub_cat.sub_category_id}
-                            ><a
                               href={`/shop/${gender.name}/categories/${cat.category_id}/sub_categories/${sub_cat.sub_category_id}/products`}
-                            >{sub_cat.name}</a></p>
+                            >{sub_cat.name}</a>
                           )
                         })}
                       </Grid>

@@ -52,7 +52,47 @@ export const inventoryReducer = (state = initialState, action) => {
           }
         }
       }
-    default:
+    
+    case ACTION.FIND.BY.PRODUCT.ID.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        product: {}
+      }
+    case ACTION.FIND.BY.PRODUCT.ID.SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        product: action.payload.product
+      }
+    case ACTION.FIND.BY.PRODUCT.ID.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: action.payload.error.message
+          }
+        }
+      }
+    
+      default:
       return state;
   }
 }

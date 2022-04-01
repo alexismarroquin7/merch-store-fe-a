@@ -75,8 +75,67 @@ const findByProductId = (product_id) => async dispatch => {
   })
 
   try {
-    const res = await axios().get('/inventory?groupBy=products');
-    const [product] = res.data.filter(product => product.product_id === Number(product_id));
+    const res = await axios().get('/inventory');
+
+    const inventory = res.data
+    .filter(inv_item => inv_item.product.product_id === Number(product_id));
+    
+    let product = {
+      colors: [],
+      gender: {},
+      category: {},
+      sub_category: {}
+    };
+
+    const colorSet = new Set();
+    
+    inventory.forEach(inventory_item => {
+      if(!product.product_id){
+        product = {
+          ...product,
+          ...inventory_item.product,
+          gender: {
+            ...inventory_item.gender
+          },
+          category: {
+            ...inventory_item.category
+          },
+          sub_category: {
+            ...inventory_item.sub_category
+          }
+        };
+      }
+
+      if(!colorSet.has(inventory_item.color.color_id)){
+        product.colors.push({
+          ...inventory_item.color,
+          sizes: [
+            {
+              ...inventory_item.size,
+              inventory_id: inventory_item.inventory_id,
+              inventory_images: inventory_item.inventory_images,
+              amount_in_stock: inventory_item.amount_in_stock
+            }
+          ]
+        });
+        colorSet.add(inventory_item.color.color_id);
+      } else {
+        product.colors = product.colors.map(color => {
+          if(color.color_id === inventory_item.color.color_id){
+            color.sizes.push({
+              ...inventory_item.size,
+              inventory_id: inventory_item.inventory_id,
+              inventory_images: inventory_item.inventory_images,
+              amount_in_stock: inventory_item.amount_in_stock
+            });
+          }
+
+          return color;
+        })
+      }
+
+    });
+    
     dispatch({
       type: ACTION.FIND.BY.PRODUCT.ID.SUCCESS,
       payload: {
@@ -99,5 +158,6 @@ const findByProductId = (product_id) => async dispatch => {
 export const InventoryAction = {
   ACTION,
   findAll,
-  findBySubCategoryId
+  findBySubCategoryId,
+  findByProductId
 }
