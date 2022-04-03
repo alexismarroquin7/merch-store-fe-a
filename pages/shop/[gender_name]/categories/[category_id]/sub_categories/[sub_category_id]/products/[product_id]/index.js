@@ -178,15 +178,11 @@ export default function Product() {
   }
 
   return (
-  <Section
-    
-  >
+  <Section>
     {product.product_id ? (
       <Grid
         direction="column wrap"
         alignItems="center"
-        width="90%"
-      
         gap="1rem"
       >
         <Grid
