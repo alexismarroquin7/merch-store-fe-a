@@ -32,7 +32,9 @@ function MyApp({ Component, pageProps }) {
       
       <Nav/>
       
-      <Section>  
+      <Section
+        padding="2rem 0"
+      >  
         <Component {...pageProps} />
       </Section>
     </ThemeProvider>

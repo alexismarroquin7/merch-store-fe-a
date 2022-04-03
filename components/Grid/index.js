@@ -2,29 +2,22 @@ import styled from "styled-components";
 
 const StyledGrid = styled.div`
   display: flex;
-  flex-flow: ${props => props.direction ? props.direction : 'row wrap'};
-  justify-content: ${props => props.justify ? props.justify : 'flex-start'};
-  align-items: ${props => props.align ? props.align : 'flex-start'};
-  gap: ${props => props.gap ? props.gap : '0px'};
-  border: ${props => props.border ? props.border : 'none'};
-  width: ${props => props.width ? props.width : 'auto'};
-  height: ${props => props.height ? props.height : 'auto'};
-  padding: ${props => props.padding ? props.padding : '0'};
-  background-color: ${props => props.backgroundColor ? props.backgroundColor : ''};
-  color: ${props => props.color ? props.color : ''};
+  flex-flow: ${({direction}) => direction ? direction : 'row wrap'};
+  justify-content: ${({justify}) => justify ? justify : 'flex-start'};
+  align-items: ${({align}) => align ? align : 'flex-start'};
+  gap: ${({gap}) => gap ? gap : '0'};
+  border: ${({border}) => border ? border : 'none'};
+  width: ${({width}) => width ? width : 'auto'};
+  height: ${({height}) => height ? height : 'auto'};
+  padding: ${({padding}) => padding ? padding : '0'};
+  background-color: ${({bgColor}) => bgColor ? bgColor : 'auto'};
+  color: ${({color}) => color ? color : 'auto'};
+  width: ${({width}) => width ? width : 'auto'};
 `
 
 export const Grid = (props) => (
   <StyledGrid
-    direction={props.direction ? props.direction : ''}
-    align={props.align ? props.align : ''}
-    justify={props.justify ? props.justify : ''}
-    gap={props.gap ? props.gap : ''}
-    border={props.border ? props.border : ''}
-    width={props.width ? props.width : ''}
-    padding={props.padding ? props.padding : ''}
-    backgroundColor={props.backgroundColor ? props.backgroundColor : ''}
-    color={props.color ? props.color : ''}
-    height={props.height ? props.height : ''}
+    {...props}
+    onClick={props.onClick ? props.onClick : () => {}}
   >{props.children}</StyledGrid>
 );
