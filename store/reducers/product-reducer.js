@@ -1,6 +1,4 @@
-import { InventoryAction } from "../actions";
-
-const { ACTION } = InventoryAction;
+import { ProductAction } from "../actions";
 
 const initialState = {
   status: {
@@ -10,89 +8,13 @@ const initialState = {
     }
   },
   list: [],
-  product: {}
+  item: {}
 }
 
-export const inventoryReducer = (state = initialState, action) => {
+export const productReducer = (state = initialState, action) => {
+
   switch(action.type){
-    case ACTION.FIND.BY.SUB_CATEGORY.ID.START:
-      return {
-        ...state,
-        status: {
-          ...state.status,
-          loading: true,
-          error: {
-            ...state.status.error,
-            message: ''
-          }
-        }
-      }
-    case ACTION.FIND.BY.SUB_CATEGORY.ID.SUCCESS:
-      return {
-        ...state,
-        status: {
-          ...state.status,
-          loading: false,
-          error: {
-            ...state.status.error,
-            message: ''
-          }
-        },
-        list: action.payload.inventory
-      }
-    case ACTION.FIND.BY.SUB_CATEGORY.ID.FAIL:
-      return {
-        ...state,
-        status: {
-          ...state.status,
-          loading: false,
-          error: {
-            ...state.status.error,
-            message: action.payload.error.message
-          }
-        }
-      }
-    
-    case ACTION.FIND.BY.PRODUCT.ID.START:
-      return {
-        ...state,
-        status: {
-          ...state.status,
-          loading: true,
-          error: {
-            ...state.status.error,
-            message: ''
-          }
-        },
-        product: {}
-      }
-    case ACTION.FIND.BY.PRODUCT.ID.SUCCESS:
-      return {
-        ...state,
-        status: {
-          ...state.status,
-          loading: false,
-          error: {
-            ...state.status.error,
-            message: ''
-          }
-        },
-        product: action.payload.product
-      }
-    case ACTION.FIND.BY.PRODUCT.ID.FAIL:
-      return {
-        ...state,
-        status: {
-          ...state.status,
-          loading: false,
-          error: {
-            ...state.status.error,
-            message: action.payload.error.message
-          }
-        }
-      }
-    
-    case ACTION.FIND.ALL.START:
+    case ProductAction.FIND.ALL.START:
       return {
         ...state,
         status: {
@@ -104,7 +26,7 @@ export const inventoryReducer = (state = initialState, action) => {
           }
         }
       };
-    case ACTION.FIND.ALL.SUCCESS:
+    case ProductAction.FIND.ALL.SUCCESS:
       return {
         ...state,
         status: {
@@ -115,9 +37,93 @@ export const inventoryReducer = (state = initialState, action) => {
             message: ''
           }
         },
-        list: action.payload.inventory
+        list: action.payload.products
       };
-    case ACTION.FIND.ALL.FAIL:
+    case ProductAction.FIND.ALL.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        }
+      };
+
+    case ProductAction.UPDATE.BY.PRODUCT.ID.START:
+      return state;
+    case ProductAction.UPDATE.BY.PRODUCT.ID.SUCCESS:
+      return state;
+    case ProductAction.UPDATE.BY.PRODUCT.ID.FAIL:
+      return state;
+    
+    case ProductAction.DELETE.PROUDCT_IMAGE.BY.PRODUCT_IMAGE_ID.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        }
+      };
+    case ProductAction.DELETE.PROUDCT_IMAGE.BY.PRODUCT_IMAGE_ID.SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+
+        }
+      };
+    case ProductAction.DELETE.PROUDCT_IMAGE.BY.PRODUCT_IMAGE_ID.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+
+        }
+      };
+
+    case ProductAction.FIND.BY.PRODUCT.ID.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        }
+      };
+    case ProductAction.FIND.BY.PRODUCT.ID.SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        item: action.payload.product
+      };
+    case ProductAction.FIND.BY.PRODUCT.ID.FAIL:
       return {
         ...state,
         status: {
@@ -129,8 +135,8 @@ export const inventoryReducer = (state = initialState, action) => {
           }
         }
       };
-    
-      default:
+
+    default:
       return state;
   }
 }

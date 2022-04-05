@@ -16,11 +16,29 @@ import { ThemeProvider } from 'styled-components'
 import { GlobalStyles, theme } from "../styles/theme";
 import '../styles/globals.css'
 
+let persistedState = {};
+
+if(typeof window !== "undefined"){
+  persistedState = JSON.parse(localStorage.getItem('merch-store-fe-a')) 
+  ? JSON.parse(localStorage.getItem('merch-store-fe-a')) 
+  : {}
+}
+
 const middleware = applyMiddleware(thunk, logger);
 const store = createStore(
   rootReducer,
+  persistedState,
   middleware
 );
+
+store.subscribe(() => {
+  if(typeof window !== "undefined"){
+    localStorage.setItem(
+      'merch-store-fe-a',
+      JSON.stringify(store.getState())
+    );
+  }
+});
 
 function MyApp({ Component, pageProps }) {
   return (

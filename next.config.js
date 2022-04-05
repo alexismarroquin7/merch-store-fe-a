@@ -7,7 +7,9 @@ module.exports = {
       'www.tillys.com',
       'litb-cgis.rightinthebox.com',
       'www.thefactshop.com',
-      'bigmunks.com'
+      'bigmunks.com',
+      'vangogh.teespring.com',
+      'cdn-us-ec.yottaa.net'
     ]
   }
 }

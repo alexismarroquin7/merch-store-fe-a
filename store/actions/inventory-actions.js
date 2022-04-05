@@ -7,6 +7,17 @@ const ACTION = {
       SUCCESS: "INVENTORY__FIND__ALL--SUCCESS",
       FAIL: "INVENTORY__FIND__ALL--FAIL"
     },
+    IMAGES: {
+      BY: {
+        INVENTORY: {
+          ID: {
+            START: "INVENTORY__FIND__IMAGES__BY__INVENTORY__ID---START",
+            SUCCESS: "INVENTORY__FIND__IMAGES__BY__INVENTORY__ID---SUCCESS",
+            FAIL: "INVENTORY__FIND__IMAGES__BY__INVENTORY__ID---FAIL"
+          }
+        }
+      }
+    },
     BY: {
       SUB_CATEGORY: {
         ID: {
@@ -28,15 +39,25 @@ const ACTION = {
 
 const findAll = () => async dispatch => {
   dispatch({
-    type: ACTION.FIND.ALL.START
+    type: ACTION.FIND.ALL.START,
+    
   });
   try {
+    const res = await axios().get('/inventory');
     dispatch({
-      type: ACTION.FIND.ALL.SUCCESS
+      type: ACTION.FIND.ALL.SUCCESS,
+      payload: {
+        inventory: res.data
+      }
     });
   } catch (err) {
     dispatch({
-      type: ACTION.FIND.ALL.FAIL
+      type: ACTION.FIND.ALL.FAIL,
+      payload: {
+        error: {
+          message: err.response.data.message
+        }
+      }
     });
   }
 }
@@ -155,9 +176,39 @@ const findByProductId = (product_id) => async dispatch => {
   }
 }
 
+const findImagesByInventoryId = () => async dispatch => {
+  dispatch({
+    type: ACTION.FIND.IMAGES.BY.INVENTORY.ID.START
+  })
+  
+  try {
+
+    const res = await axios().get(`/inventory_images`);
+    console.log('🙂', res);
+    dispatch({
+      type: ACTION.FIND.IMAGES.BY.INVENTORY.ID.SUCCESS,
+      payload: {
+
+      }
+    })
+  } catch (err) {
+    console.log('😭', err)
+    dispatch({
+      type: ACTION.FIND.IMAGES.BY.INVENTORY.ID.FAIL,
+      payload: {
+        error: {
+          message: err.response.data.message 
+        }
+      }
+    })
+  }
+
+};
+
 export const InventoryAction = {
   ACTION,
   findAll,
   findBySubCategoryId,
-  findByProductId
+  findByProductId,
+  findImagesByInventoryId
 }

@@ -1,13 +1,19 @@
+// hooks
 import { useState } from "react"
-
-import { Grid } from "../../components";
-
 import { useDispatch, useSelector } from "react-redux";
 
+// components
+import { Grid } from "../../components";
+
+// utils
 import { capitalizeFirstLetter } from "../../utils";
 
+// actions
+import { MenuAction, AuthAction } from "../../store";
+
+// styles
 import styled from "styled-components";
-import { MenuAction } from "../../store";
+import { useRouter } from "next/router";
 
 const StyledMenu = styled.section`
   width: 50%;
@@ -61,8 +67,15 @@ export const Menu = ({ open }) => {
     }
   }
 
-  const menu = useSelector(s => s.menu);
+  const {menu, auth} = useSelector(s => {
+    return {
+      menu: s.menu,
+      auth: s.auth
+    }
+
+  });
   const dispatch = useDispatch();
+  const router = useRouter();
 
   return (
   <StyledMenu
@@ -72,6 +85,28 @@ export const Menu = ({ open }) => {
       direction="column wrap"
       gap="1rem"
     >
+      <Grid>
+
+        {!auth.status.loggedIn && (
+          <button>Sign Up</button>
+        )}
+
+        <button
+          onClick={() => {
+            if(auth.status.loggedIn){
+              dispatch(AuthAction.logout());
+            } else {
+              dispatch(MenuAction.toggleOpen());
+              router.push('/auth/login');
+            }
+          }}
+        >
+          {auth.status.loggedIn ? 'logout' : 'login'}
+        </button>
+
+      </Grid>
+
+
       {
         menu.genders.length > 0 &&
         menu.genders.map(gender => {

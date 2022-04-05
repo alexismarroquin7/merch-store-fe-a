@@ -1,5 +1,6 @@
 import { useToggle } from "../../../hooks";
 import styled from "styled-components";
+import { useEffect } from "react";
 
 const StyledMenuIcon = styled.div`
   display: inline-block;
@@ -38,6 +39,13 @@ const StyledMenuIcon = styled.div`
 
 export const MenuIcon = ({open, onClick}) => {
   const {toggled: menuOpen, flipToggle: toggleMenuOpen} = useToggle(open);
+  
+  useEffect(() => {
+    if(open !== menuOpen){
+      toggleMenuOpen();
+    }
+  }, [open, menuOpen, toggleMenuOpen])
+
   return (
   <StyledMenuIcon
     open={menuOpen}

@@ -5,14 +5,14 @@ import { MenuIcon, SearchIcon, Grid, BagIcon } from "../../components"
 import { Menu } from "../Menu";
 
 // hooks
-import { useToggle } from "../../hooks";
-
-// store
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+// actions
 import { MenuAction } from "../../store";
+
 // style
 import styled from "styled-components";
-import { useEffect } from "react";
 
 const StyledNav = styled.nav`
   position: sticky;
