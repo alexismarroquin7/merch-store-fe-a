@@ -13,6 +13,7 @@ export default function AdminProduct(){
   const product = useSelector(s => s.product);
 
   useEffect(() => {
+    if(!router.query.product_id) return;
     dispatch(ProductAction.findByProductId(router.query.product_id));
   }, [dispatch, router.query.product_id]);
   
@@ -24,6 +25,13 @@ export default function AdminProduct(){
       padding="1rem 0"
       gap=".2rem"
     >
+      <Link
+        href="/admin/dashboard"
+        passHref
+      >
+        <a>/ dashboard</a>
+      </Link>
+
       <Link
         href="/admin/dashboard/products"
         passHref

@@ -19,8 +19,8 @@ import '../styles/globals.css'
 let persistedState = {};
 
 if(typeof window !== "undefined"){
-  persistedState = JSON.parse(localStorage.getItem('merch-store-fe-a')) 
-  ? JSON.parse(localStorage.getItem('merch-store-fe-a')) 
+  persistedState = JSON.parse(localStorage.getItem('merch_store_fe_a')) 
+  ? JSON.parse(localStorage.getItem('merch_store_fe_a')) 
   : {}
 }
 
@@ -34,7 +34,7 @@ const store = createStore(
 store.subscribe(() => {
   if(typeof window !== "undefined"){
     localStorage.setItem(
-      'merch-store-fe-a',
+      'merch_store_fe_a',
       JSON.stringify(store.getState())
     );
   }

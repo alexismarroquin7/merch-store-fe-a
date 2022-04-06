@@ -8,7 +8,8 @@ const initialState = {
     }
   },
   list: [],
-  item: {}
+  item: {},
+  product_images: []
 }
 
 export const productReducer = (state = initialState, action) => {
@@ -53,11 +54,52 @@ export const productReducer = (state = initialState, action) => {
       };
 
     case ProductAction.UPDATE.BY.PRODUCT.ID.START:
-      return state;
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        }
+      };
     case ProductAction.UPDATE.BY.PRODUCT.ID.SUCCESS:
-      return state;
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        item: {
+          ...state.item,
+          ...action.payload.product
+        },
+        list: state.list.map(product => {
+          if(product.product_id === action.payload.product.product_id) {
+            return action.payload.product;
+          } else {
+            return product;
+          }
+        })
+      };
     case ProductAction.UPDATE.BY.PRODUCT.ID.FAIL:
-      return state;
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: action.payload.error.message
+          }
+        }
+      };
     
     case ProductAction.DELETE.PROUDCT_IMAGE.BY.PRODUCT_IMAGE_ID.START:
       return {
@@ -135,6 +177,44 @@ export const productReducer = (state = initialState, action) => {
           }
         }
       };
+    
+    case ProductAction.FIND.IMAGES.BY.PRODUCT_IMAGE.ID.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        }
+      }
+    case ProductAction.FIND.IMAGES.BY.PRODUCT_IMAGE.ID.SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        product_images: action.payload.product_images
+      }
+    case ProductAction.FIND.IMAGES.BY.PRODUCT_IMAGE.ID.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: action.payload.error.message
+          }
+        }
+      }
 
     default:
       return state;

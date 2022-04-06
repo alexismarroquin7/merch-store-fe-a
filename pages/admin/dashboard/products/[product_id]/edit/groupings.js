@@ -53,7 +53,9 @@ export default function EditProductGroupingsForm () {
   useEffect(() => {
     if(!router.query.product_id) return;
 
-    const [productToUse] = product.list.filter(p => p.product_id === Number(router.query.product_id));
+    dispatch(ProductAction.findByProductId(router.query.product_id))
+
+    const productToUse = product.item;
     
     setSelected({
       ...selected,
@@ -264,9 +266,9 @@ export default function EditProductGroupingsForm () {
       <button
         onClick={(e) => {
           e.stopPropagation();
-          router.push('/admin/dashboard/products');
+          router.push(`/admin/dashboard/products/${product.item.product_id}`);
         }}
-        >Cancel</button>
+        >Back</button>
       <button
         type="submit"
       >Done</button>

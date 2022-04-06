@@ -22,6 +22,13 @@ export default function AdminProducts () {
       gap=".2rem"
     >
       <Link
+        href="/admin/dashboard"
+        passHref
+      >
+        <a>/ dashboard</a>
+      </Link>
+
+      <Link
         href="/admin/dashboard/products"
         passHref
       >

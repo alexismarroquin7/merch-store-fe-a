@@ -10,7 +10,11 @@ const initialState = {
     }
   },
   list: [],
-  product: {}
+  item: {
+    inventory_images: []
+  },
+  product: {},
+  inventory_images: []
 }
 
 export const inventoryReducer = (state = initialState, action) => {
@@ -130,7 +134,170 @@ export const inventoryReducer = (state = initialState, action) => {
         }
       };
     
-      default:
+    case ACTION.FIND.IMAGES.BY.INVENTORY.ID.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+
+        }
+      }
+    case ACTION.FIND.IMAGES.BY.INVENTORY.ID.SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+
+        },
+        inventory_images: action.payload.inventory_images
+
+      }
+    case ACTION.FIND.IMAGES.BY.INVENTORY.ID.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+
+        }
+      }
+    
+    case ACTION.FIND.BY.INVENTORY.ID.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        }
+      }
+    case ACTION.FIND.BY.INVENTORY.ID.SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        item: action.payload.inventoryItem
+      }
+    case ACTION.FIND.BY.INVENTORY.ID.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: action.payload.error.message
+          }
+        }
+      }
+
+    case ACTION.DELETE.INVENTORY_IMAGE.BY.INVENTORY_IMAGE.ID.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        }
+      }
+    case ACTION.DELETE.INVENTORY_IMAGE.BY.INVENTORY_IMAGE.ID.SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        item: {
+          ...state.item,
+          inventory_images: state.item.inventory_images.filter(inv_img => inv_img.inventory_image_id !== Number(action.payload.inventory_image_id))
+        }
+      }
+    case ACTION.DELETE.INVENTORY_IMAGE.BY.INVENTORY_IMAGE.ID.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: action.payload.error.message
+          }
+        }
+      }
+
+    case ACTION.CREATE.INVENTORY_IMAGE.START:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        }
+      }
+    case ACTION.CREATE.INVENTORY_IMAGE.SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        },
+        item: {
+          ...state.item,
+          inventory_images: [...state.item.inventory_images, action.payload.inventory_image]
+        }
+      }
+    case ACTION.CREATE.INVENTORY_IMAGE.FAIL:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          error: {
+            ...state.status.error,
+            message: ''
+          }
+        }
+      }
+
+
+    default:
       return state;
   }
 }

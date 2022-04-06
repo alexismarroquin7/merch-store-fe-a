@@ -9,16 +9,13 @@ const StyledSection = styled.section`
   align-items: center;
   justify-content: center;
   padding: ${({padding}) => padding ? padding : '0 1rem'};
-  
+  gap: ${({gap}) => gap ? gap : '0'};
 `
 
 export const Section = (props) => {
   return (
   <StyledSection
-    width={props.width ? props.width : null}
-    height={props.height ? props.height : null}
-    border={props.border ? props.border : null}
-    padding={props.padding ? props.padding : null}
+    {...props}
   >
     {props.children}
   </StyledSection>

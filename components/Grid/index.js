@@ -13,6 +13,7 @@ const StyledGrid = styled.div`
   background-color: ${({bgColor}) => bgColor ? bgColor : 'auto'};
   color: ${({color}) => color ? color : 'auto'};
   width: ${({width}) => width ? width : 'auto'};
+  border-radius: ${({borderRadius}) => borderRadius ? borderRadius : '0'};
 `
 
 export const Grid = (props) => (

@@ -1,8 +1,9 @@
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Grid } from "../../../../../../components";
+import { Grid, Section } from "../../../../../../components";
 import { ProductAction } from "../../../../../../store";
+import Spinner from "react-svg-spinner";
 
 const initialValues = {
   valued_at: '',
@@ -18,7 +19,10 @@ export default function EditProductPriceForm () {
 
   useEffect(() => {
     if(!router.query.product_id) return;
-    const selectedProduct = product.list.filter(p => p.product_id === Number(router.query.product_id))[0];
+    
+    dispatch(ProductAction.findByProductId(router.query.product_id));
+    
+    const selectedProduct = product.item;
 
     setValues(v => {
       return {
@@ -28,9 +32,7 @@ export default function EditProductPriceForm () {
       }
     });
     
-  }, [router.query.product_id])
-
-  useEffect(() => console.log(values), [values])
+  }, [dispatch, router.query.product_id])
 
   const handleChange = e => {
     const {name, value} = e.target;
@@ -43,7 +45,7 @@ export default function EditProductPriceForm () {
   const handleSubmit = e => {
     e.preventDefault();
 
-    const [oldProduct] = product.list.filter(p => p.product_id === Number(router.query.product_id));
+    const oldProduct = product.item;
 
     dispatch(
       ProductAction.updateByProductId(
@@ -58,43 +60,63 @@ export default function EditProductPriceForm () {
   }
 
   return (
-  <form
-    onSubmit={handleSubmit}
-  >
-    <Grid
-      direction="column wrap"
+  <Section>
+    <form
+      style={{width: "100%"}}
+      onSubmit={handleSubmit}
     >
-      <label>Valued At:
-        <input
-          type="number"
-          name="valued_at"
-          value={values.valued_at}
-          onChange={handleChange}
-          />
-      </label>
-      
-      <label>Current Price:
-        <input
-          type="number"
-          name="current_price"
-          value={values.current_price}
-          onChange={handleChange}
-        />
-      </label>
-    </Grid>
 
-    <Grid>
-      <button
-        onClick={() => {
-          router.push('/admin/dashboard/products');
-        }}
+      <Grid
+        border=".2rem solid black"
+        borderRadius="5px"
+        padding="1rem"
+        width="100%"
+        direction="column wrap"
+        gap="1rem"
       >
-        Cancel
-      </button>
-      <button>
-        Done
-      </button>
-    </Grid>
-  </form>
+        <Grid
+          width="100%"
+          justify="space-between"
+        >
+          <label>Valued At:</label>
+          <input
+            type="number"
+            name="valued_at"
+            value={values.valued_at}
+            onChange={handleChange}
+          />
+        </Grid>
+        
+        <Grid
+          width="100%"
+          justify="space-between"
+        >
+          <label>Current Price:</label>
+          <input
+            type="number"
+            name="current_price"
+            value={values.current_price}
+            onChange={handleChange}
+          />
+        </Grid>  
+        
+        <Grid
+          gap="1rem"
+        >
+          <button
+            onClick={() => {
+              router.push(`/admin/dashboard/products/${product.item.product_id}`);
+            }}
+          >Back</button>
+          
+          <button type="submit">Done</button>
+
+          {product.status.loading && <Spinner/>}
+        </Grid>
+      
+      </Grid>
+
+    </form>
+  </Section>
   )
 }

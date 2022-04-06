@@ -32,6 +32,33 @@ const ACTION = {
           SUCCESS: "INVENTORY__FIND__BY__PRODUCT__ID--SUCCESS",
           FAIL: "INVENTORY__FIND__BY__PRODUCT__ID--FAIL"
         }
+      },
+      INVENTORY: {
+        ID: {
+          START: "INVENTORY__FIND__BY__INVENTORY__ID--START",
+          SUCCESS: "INVENTORY__FIND__BY__INVENTORY__ID--SUCCESS",
+          FAIL: "INVENTORY__FIND__BY__INVENTORY__ID--FAIL"
+        }
+      }
+    }
+  },
+  CREATE: {
+    INVENTORY_IMAGE: {
+      START: "INVENTORY__CREATE__INVENTORY_IMAGE--START",
+      SUCCESS: "INVENTORY__CREATE__INVENTORY_IMAGE--SUCCESS",
+      FAIL: "INVENTORY__CREATE__INVENTORY_IMAGE--FAIL"
+    }
+  },
+  DELETE: {
+    INVENTORY_IMAGE: {
+      BY: {
+        INVENTORY_IMAGE: {
+          ID: {
+            START: "INVENTORY__DELETE__INVENTORY_IMAGE__BY__INVENTORY_IMAGE__ID--START",
+            SUCCESS: "INVENTORY__DELETE__INVENTORY_IMAGE__BY__INVENTORY_IMAGE__ID--SUCCESS",
+            FAIL: "INVENTORY__DELETE__INVENTORY_IMAGE__BY__INVENTORY_IMAGE__ID--FAIL",
+          }
+        }
       }
     }
   }
@@ -176,7 +203,7 @@ const findByProductId = (product_id) => async dispatch => {
   }
 }
 
-const findImagesByInventoryId = () => async dispatch => {
+const findImagesByInventoryId = (inventory_id) => async dispatch => {
   dispatch({
     type: ACTION.FIND.IMAGES.BY.INVENTORY.ID.START
   })
@@ -184,15 +211,16 @@ const findImagesByInventoryId = () => async dispatch => {
   try {
 
     const res = await axios().get(`/inventory_images`);
-    console.log('🙂', res);
+    
+    const inventory_images = res.data.filter(inv_img => inv_img.inventory_id === Number(inventory_id));
+
     dispatch({
       type: ACTION.FIND.IMAGES.BY.INVENTORY.ID.SUCCESS,
       payload: {
-
+        inventory_images
       }
     })
   } catch (err) {
-    console.log('😭', err)
     dispatch({
       type: ACTION.FIND.IMAGES.BY.INVENTORY.ID.FAIL,
       payload: {
@@ -205,10 +233,92 @@ const findImagesByInventoryId = () => async dispatch => {
 
 };
 
+const findByInventoryId = (inventory_id) => async dispatch => {
+  dispatch({
+    type: ACTION.FIND.BY.INVENTORY.ID.START
+  })
+
+  try {
+    const res = await axios().get(`/inventory/${inventory_id}`);
+    dispatch({
+      type: ACTION.FIND.BY.INVENTORY.ID.SUCCESS,
+      payload: {
+        inventoryItem: res.data
+      }
+    })
+  } catch (err) {
+    dispatch({
+      type: ACTION.FIND.BY.INVENTORY.ID.FAIL,
+      payload: {
+        error: {
+          message: err.response.data.message 
+        }
+      }
+    })
+  }
+}
+
+const deleteInventoryImageByInventoryImageId = (inventory_image_id) => async dispatch => {
+  dispatch({
+    type: ACTION.DELETE.INVENTORY_IMAGE.BY.INVENTORY_IMAGE.ID.START,
+  })
+
+  try {
+    const res = await axios().delete(`/inventory_images/${inventory_image_id}`);
+    dispatch({
+      type: ACTION.DELETE.INVENTORY_IMAGE.BY.INVENTORY_IMAGE.ID.SUCCESS,
+      payload: {
+        inventory_image_id: res.data.inventory_image_id
+      }
+    })
+  } catch (err) {
+    dispatch({
+      type: ACTION.DELETE.INVENTORY_IMAGE.BY.INVENTORY_IMAGE.ID.FAIL,
+      payload: {
+        error: {
+          message: err.response.data.message 
+        }
+      }
+    })
+  }
+}
+
+const createInventoryImage = ({inventory_id, image_id}) => async dispatch => {
+  dispatch({
+    type: ACTION.CREATE.INVENTORY_IMAGE.START
+  })
+
+  try {
+    const res = await axios().post(`/inventory_images`, {
+      inventory_id,
+      image_id
+    });
+
+    dispatch({
+      type: ACTION.CREATE.INVENTORY_IMAGE.SUCCESS,
+      payload: {
+        inventory_image: res.data
+      }
+    })
+  } catch (err) {
+    dispatch({
+      type: ACTION.CREATE.INVENTORY_IMAGE.FAIL,
+      payload: {
+        error: {
+          message: err.response.data.message 
+        }
+      }
+    })
+  }
+}
+
 export const InventoryAction = {
   ACTION,
   findAll,
   findBySubCategoryId,
   findByProductId,
-  findImagesByInventoryId
+  findImagesByInventoryId,
+  findByInventoryId,
+  deleteInventoryImageByInventoryImageId,
+  createInventoryImage
 }

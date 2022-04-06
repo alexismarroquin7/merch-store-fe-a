@@ -15,6 +15,17 @@ const ACTION = {
           FAIL: "PRODUCT__FIND__BY__PRODUCT__ID--FAIL"
         }
       }
+    },
+    IMAGES: {
+      BY: {
+        PRODUCT_IMAGE: {
+          ID: {
+            START: "PRODUCT__FIND__PRODUCT_IMAGE__ID--START",
+            SUCCESS: "PRODUCT__FIND__PRODUCT_IMAGE__ID--SUCCESS",
+            FAIL: "PRODUCT__FIND__PRODUCT_IMAGE__ID--FAIL"
+          }
+        }
+      }
     }
   },
   UPDATE: {
@@ -69,9 +80,7 @@ const findAll = () => async dispatch => {
 }
 
 const updateByProductId = (product_id, changes, original) => async dispatch => {
-  const colorsToUse = changes.colors || original.product_colors.map(p_color => p_color.color);
-  const imagesToUse = changes.images || original.product_images.map(p_image => p_image.image);
-  
+
   const model = {
     name: changes.name || original.name,
     description: changes.description || original.description,
@@ -79,16 +88,20 @@ const updateByProductId = (product_id, changes, original) => async dispatch => {
     valued_at: changes.valued_at || original.valued_at,
     current_price: changes.current_price || original.current_price,
     gender: {
-      name: changes.gender && changes.gender.name ? changes.gender.name : original.gender.name
+      name: changes.gender && changes.gender.name 
+      ? changes.gender.name 
+      : original.gender.name
     },
     category: {
-      name: changes.category && changes.category.name ? changes.category.name : original.category.name
+      name: changes.category && changes.category.name 
+      ? changes.category.name 
+      : original.category.name
     },
     sub_category: {
-      name: changes.sub_category && changes.sub_category.name ? changes.sub_category.name : original.sub_category.name
-    },
-    colors: colorsToUse,
-    images: imagesToUse
+      name: changes.sub_category && changes.sub_category.name 
+      ? changes.sub_category.name 
+      : original.sub_category.name
+    }
   }
   
   dispatch({
@@ -98,12 +111,20 @@ const updateByProductId = (product_id, changes, original) => async dispatch => {
   try {
     const res = await axios().put(`/products/${product_id}`, model);
     dispatch({
-      type: ACTION.UPDATE.BY.PRODUCT.ID.SUCCESS
+      type: ACTION.UPDATE.BY.PRODUCT.ID.SUCCESS,
+      payload: {
+        product: res.data
+      }
     })
     
   } catch(err) {
     dispatch({
-      type: ACTION.UPDATE.BY.PRODUCT.ID.FAIL
+      type: ACTION.UPDATE.BY.PRODUCT.ID.FAIL,
+      payload: {
+        error: {
+          message: err.response.data.message
+        }
+      }
     })
 
   }
@@ -155,10 +176,39 @@ const findByProductId = (product_id) => async dispatch => {
   }
 }
 
+const findImagesByProductId = (product_id) => async dispatch => {
+  dispatch({
+    type: ACTION.FIND.IMAGES.BY.PRODUCT_IMAGE.ID.START
+  })
+
+  try {
+    const res = await axios().get(`/product_images`);
+
+    const product_images = res.data.filter(p_img => p_img.product_id === Number(product_id));
+
+    dispatch({
+      type: ACTION.FIND.IMAGES.BY.PRODUCT_IMAGE.ID.SUCCESS,
+      payload: {
+        product_images
+      }
+    })
+  } catch (err) {
+    dispatch({
+      type: ACTION.FIND.IMAGES.BY.PRODUCT_IMAGE.ID.FAIL,
+      payload: {
+        error: {
+          message: err.response.data.message
+        }
+      }
+    })
+  }
+}
+
 export const ProductAction = {
   ...ACTION,
   findAll,
   findByProductId,
   updateByProductId,
-  deleteProductImageByProductImageId
+  deleteProductImageByProductImageId,
+  findImagesByProductId
 }

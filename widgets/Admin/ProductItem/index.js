@@ -9,7 +9,8 @@ export const AdminProductItem = ({product}) => {
   <Grid
     width="90%"
     direction="column wrap"
-    border="1px solid black"
+    border=".2rem solid black"
+    borderRadius="5px"
     padding="1rem"
   >
     <p>ID: {product.product_id}</p>
