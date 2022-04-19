@@ -190,6 +190,44 @@ export const AdminProductItem = ({product}) => {
 
     </Grid>
 
+    <Border
+      padding=".1rem"
+    />
+
+    <Grid
+      width="100%"
+      direction="column wrap"
+    >
+      <Grid
+        width="100%"
+        justify="space-between"
+      >
+        <p>Sizes:</p>
+        <p>{'>'}</p>
+      </Grid>
+
+      <Grid
+        gap="1rem"
+        align="center"
+      >
+        {product.product_sizes.map(p_size => {
+          return (
+          <Grid
+            key={p_size.product_size_id}
+          >
+            <p
+              style={{
+                border: '1px solid black',
+                padding: ".5rem",
+                borderRadius: "5px"
+              }}  
+            >{p_size.size.name}</p>
+          </Grid>
+          )
+        })}
+      </Grid>
+
+    </Grid>
   </Grid>
   )
 }

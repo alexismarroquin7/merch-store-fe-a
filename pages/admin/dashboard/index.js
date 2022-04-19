@@ -15,6 +15,11 @@ export default function AdminDashboard() {
         router.push('/admin/dashboard/inventory');
       }}
     >Inventory</button>
+    <button
+      onClick={() => {
+        router.push('/admin/dashboard/images');
+      }}
+    >Images</button>
   </Grid>
   )
 }
